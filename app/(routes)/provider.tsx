@@ -8,43 +8,41 @@ import AppHeader from '../_components/AppHeader';
 import { AppSidebar } from '../_components/AppSidebar';
 
 function DashboardProvider({
-    children,
+  children,
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode;
 }>) {
 
-    const user = useAuthContext();
-    const router = useRouter();
+  const user = useAuthContext();
+  const router = useRouter();
 
-    useEffect(() => {
-        if (!user?.user && user.user) return router.replace('/')
+  useEffect(() => {
+    if (!user?.user && user.user) return router.replace('/')
+    // user?.user && checkUser()
 
-
-        user?.user && checkUser()
-
-    }, [user])
+  }, [user])
 
 
-    const checkUser = async () => {
-        const result = await axios.post('/api/user', {
-            userName: user?.user?.displayName,
-            userEmail: user?.user?.email
-        });
-        console.log(user);
-    }
+  const checkUser = async () => {
+    const result = await axios.post('/api/user', {
+      userName: user?.user?.displayName,
+      userEmail: user?.user?.email
+    });
+    console.log(user);
+  }
 
 
-    return (
-        <SidebarProvider>
-            <AppSidebar />
-            <main className='w-full'>
-                <AppHeader />
-                {/* <SidebarTrigger /> */}
-                <div className='p-10'>{children}</div>
-            </main>
-        </SidebarProvider>
+  return (
+    <SidebarProvider>
+      <AppSidebar />
+      <main className='w-full'>
+        <AppHeader />
+        {/* <SidebarTrigger /> */}
+        <div className='p-10'>{children}</div>
+      </main>
+    </SidebarProvider>
 
-    )
+  )
 }
 
 export default DashboardProvider
