@@ -14,6 +14,7 @@ import {
 import { Calendar, Home, Inbox, Megaphone, Search, Settings, Wallet2 } from "lucide-react"
 import Image from 'next/image'
 import { useParams, usePathname } from 'next/navigation'
+import { Button } from '@/components/ui/button'
 
 const items = [
     {
@@ -76,6 +77,7 @@ export function AppSidebar() {
                 </SidebarGroup>
             </SidebarContent>
             <SidebarFooter>
+                <Button>Sign in</Button>
                 <h2 className='p-2 text-gray-400 text-sm'>Copyright @uandersoncosta</h2>
             </SidebarFooter>
         </Sidebar>
