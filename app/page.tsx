@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 import Authentication from "./_components/Authentication";
@@ -14,8 +14,8 @@ export default function Home() {
   const user = useAuthContext();
 
   useEffect(() => {
-    router.replace('/app')
-  }, [])
+    router.replace("/app");
+  }, [user]);
 
   return (
     <div></div>
@@ -60,8 +60,6 @@ export default function Home() {
     //         </a>
     //       </div>
 
-
-
     //       <div className="mt-5 max-w-2xl text-center mx-auto">
     //         <h1 className="block font-bold text-gray-800 text-4xl md:text-5xl lg:text-6xl dark:text-neutral-200">
     //           Build Something
@@ -69,15 +67,13 @@ export default function Home() {
     //         </h1>
     //       </div>
 
-
     //       <div className="mt-5 max-w-3xl text-center mx-auto">
     //         <p className="text-lg text-gray-600 dark:text-neutral-400">
     //           Revolutionize your content creation with our AI-powered app, delivering engaging and high-quality apps in seconds.</p>
     //       </div>
 
-
     //       <div className="mt-8 gap-3 flex justify-center">
-    //         <a className="inline-flex justify-center items-center 
+    //         <a className="inline-flex justify-center items-center
     //   gap-x-3 text-center bg-gradient-to-tl from-blue-600
     //    to-violet-600 hover:from-violet-600 hover:to-blue-600 border border-transparent text-white text-sm font-medium rounded-md focus:outline-none focus:ring-1 focus:ring-gray-600 py-3 px-4 dark:focus:ring-offset-gray-800"
     //           href="/dashboard">
@@ -87,11 +83,8 @@ export default function Home() {
 
     //       </div>
 
-
-
     //     </div>
     //   </div>
-
 
     //   <div className="max-w-[85rem] px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
     //     <div className="grid sm:grid-cols-2 lg:grid-cols-4 items-center gap-2">
