@@ -63,17 +63,25 @@ export async function POST(req: NextRequest) {
 
     //@ts-ignore
 
-    const generatedImage = imageResponse.candidates?.[0]?.content?.parts;
-    const imageData = generatedImage?.[0]?.inlineData?.data;
+    const generatedImage = imageResponse.candidates?.[0]?.content?.parts ?? [];
+    console.log(
+      "Generated Image Parts:",
+      JSON.stringify(generatedImage, null, 2)
+    );
+
+    const imageData = generatedImage.find((p: any) => p.inlineData)?.inlineData
+      ?.data;
+
     //@ts-ignore
     const buffer = Buffer.from(imageData, "base64");
 
     //Upload generate Image to Imagekit
     const uploadResult = await imagekit.upload({
-      file: `data:image/png;base,${buffer}`,
+      file: `data:image/png;base64,${buffer.toString("base64")}`,
       fileName: `generate-${Date.now()}.png`,
       isPublished: true,
     });
+
 
     return NextResponse.json(uploadResult?.url);
   } catch (error) {
