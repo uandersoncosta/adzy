@@ -39,7 +39,7 @@ function FormInput() {
   return (
     <div>
       <div>
-        <h1 className="font-semibold">1. Upload Product Image</h1>
+        <h1 className="font-semibold">1. 1. Envie a imagem do produto</h1>
         <div>
           <label
             htmlFor="imageUpload"
