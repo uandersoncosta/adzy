@@ -1,7 +1,7 @@
 "use client";
 
 import { Textarea } from "@/components/ui/textarea";
-import { ImagePlus, Monitor, Smartphone, Sparkles, Square } from "lucide-react";
+import { ImagePlus, Loader2Icon, Monitor, Smartphone, Sparkles, Square } from "lucide-react";
 import Image from "next/image";
 import React, { useState } from "react";
 import {
@@ -21,7 +21,13 @@ const sampleProduct = [
   "/ice-creame.png",
 ];
 
-function FormInput() {
+type Props = {
+  onHandleInputChange: any;
+  OnGenerate: any;
+  loading: boolean;
+};
+
+function FormInput({ onHandleInputChange, OnGenerate, loading }: Props) {
   const [preview, setPreview] = useState<string | null>();
   const onFileSelected = (files: FileList) => {
     const file = files[0];
@@ -33,6 +39,7 @@ function FormInput() {
       return;
     }
 
+    onHandleInputChange("file", file);
     setPreview(URL.createObjectURL(file));
   };
 
@@ -83,7 +90,10 @@ function FormInput() {
                 width={100}
                 height={100}
                 className="w-[60px] h-[60px] rounded-lg cursor-pointer hover:scale-105 transition-all"
-                onClick={() => setPreview(product)}
+                onClick={() => {
+                  setPreview(product);
+                  onHandleInputChange("imageUrl", product);
+                }}
               />
             ))}
           </div>
@@ -94,11 +104,14 @@ function FormInput() {
         <Textarea
           placeholder="Aqui descreva sobre o seu produto e como você quer mostrar"
           className="min-h-[150px] mt-2"
+          onChange={(event) =>
+            onHandleInputChange("description", event.target.value)
+          }
         />
       </div>
       <div className="mt-8">
         <h2 className="font-semibold">3. Selecione o tamanho da imagem</h2>
-        <Select>
+        <Select onValueChange={(value) => onHandleInputChange("size", value)}>
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Resolução" />
           </SelectTrigger>
@@ -124,8 +137,12 @@ function FormInput() {
           </SelectContent>
         </Select>
       </div>
-      <Button className="mt-10 w-full text-center">
-        <Sparkles />
+      <Button
+        className="mt-10 w-full text-center"
+        onClick={OnGenerate}
+        disabled={loading}
+      >
+        {loading ? <Loader2Icon className="animate-spin" /> : <Sparkles />}
         Generate
       </Button>
       <h2 className="mt-1 text-sm opacity-35">5 Creditos para gerar</h2>
