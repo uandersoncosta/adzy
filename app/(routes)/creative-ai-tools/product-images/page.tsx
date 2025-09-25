@@ -1,9 +1,11 @@
-"use client"
+"use client";
 
 import React, { useState } from "react";
 import FormInput from "../_components/FormInput";
 import PreviewResult from "../_components/PreviewResult";
 import axios from "axios";
+import { AuthContext } from "@/context/AuthContext";
+import { useAuthContext } from "@/app/provider";
 
 type FormData = {
   file: File | undefined;
@@ -15,6 +17,7 @@ type FormData = {
 function Product() {
   const [formData, setFormData] = useState<FormData>();
   const [loading, setLoading] = useState(false);
+  const { user } = useAuthContext();
 
   const onHandleInputChange = (field: string, value: string) => {
     setFormData((prev: any) => ({
@@ -38,11 +41,12 @@ function Product() {
     formData_.append("file", formData?.file);
     formData_.append("description", formData?.description ?? "");
     formData_.append("size", formData?.size ?? "1028x1028");
+    formData_.append("userEmail", user?.email ?? '');
 
     // make api call
     const result = await axios.post("/api/generate-product-image", formData_);
-    console.log(result.data)
-    setLoading(false)
+    console.log(result.data);
+    setLoading(false);
   };
 
   return (
