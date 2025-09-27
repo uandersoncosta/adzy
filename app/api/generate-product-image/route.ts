@@ -1,7 +1,8 @@
 import { db } from "@/configs/firebaseConfig";
 import { ai } from "@/lib/gemini";
 import { imagekit } from "@/lib/imagekit";
-import { doc, setDoc } from "firebase/firestore";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
+import { projectUpdate } from "next/dist/build/swc/generated-native";
 import { NextRequest, NextResponse } from "next/server";
 
 const PROMPT = `Crie uma imagem vibrante de vitrine de produto, destacando a imagem enviada no centro, cercada por respingos dinâmicos de líquido ou materiais relevantes.
@@ -15,6 +16,14 @@ export async function POST(req: NextRequest) {
   const description = formData.get("description");
   const size = formData?.get("size");
   const userEmail = formData?.get("userEmail");
+
+  const docId = Date.now().toString();
+  await setDoc(doc(db, "user-ads", docId), {
+    userEmail: userEmail,
+    status: "pending",
+    description: description,
+    size: size,
+  });
 
   // upload product image
   const arrayBuffer = await file.arrayBuffer();
@@ -86,12 +95,10 @@ export async function POST(req: NextRequest) {
     });
 
     // salvando no BD
-    await setDoc(doc(db, "user-ads", Date.now().toString()), {
-      userEmail: userEmail,
+    await updateDoc(doc(db, "user-ads", docId), {
       finalProductImageUrl: uploadResult?.url,
       productImageUrl: imageKitRef,
-      description: description,
-      size: size,
+      status: "completed",
     });
 
     return NextResponse.json(uploadResult?.url);
