@@ -62,7 +62,7 @@ function Product() {
             loading={loading}
           />
         </div>
-        <div className="md:grid-cols-2">
+        <div className="md:col-span-2">
           <PreviewResult />
         </div>
       </div>
